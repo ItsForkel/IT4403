@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>jQuery function</title>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript">
+
+	function createList()
+	{
+		var level=5;
+
+		$("#list").append("<ul>");
+
+		for (i=1;i<=level;i++)
+		{
+			$("#list").append("<li>"+i+"</li>");
+		}
+
+		$("#list").append("</ul>");
+	}
+
+
+	function createList2(level, type)
+	{
+		$("#list").append("<"+type+">");
+
+		for (i=1;i<=level;i++)
+		{
+			$("#list").append("<li>"+i+"</li>");
+		}
+
+		$("#list").append("</"+type+">");
+	}
+
+	</script>
+
+</head>
+
+<body>
+
+<h1>Function 1</h1>
+<p>This example shows void type functions.</p>
+
+<div id="list"></div>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		createList();
+		createList2(10,'ol');
+
+	});
+
+</script>
+</body>
+
+</html>
