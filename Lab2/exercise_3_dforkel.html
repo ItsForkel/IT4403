@@ -14,7 +14,7 @@
 		});
 
 		$("#classButton").click(function(){
-			$(".spaceInfo").css("background-color", "lightgray");
+			$(".spaceinfo").css("background-color", "yellow");
 		});
 
 		$("#elementButton").click(function(){
@@ -40,12 +40,12 @@
 		});
 
 		$("#readAttribute").click(function(){
-			var link=$("#nasaLink").attr("href");
+			var link=$("#nasalink").attr("href");
 			$("#output").text("Link: "+link);
 		});
 
 		$("#changeAttribute").click(function(){
-			$("#nasaLink").attr("href", "https://www.nasa.gov");
+			$("#nasalink").attr("href", "https://www.science.nasa.gov");
 		});
 
 		$("#hideButton").click(function(){
@@ -110,8 +110,8 @@
 <h2>DOM Manipulation</h2>
 
 <button id="readText">Read Text</button>
-<button id="readHTML">Read HTML</button>
 <button id="changeText">Change Text</button>
+<button id="readHTML">Read HTML</button>
 <button id="changeHTML">Change HTML</button>
 <button id="readAttribute">Read Attribute</button>
 <button id="changeAttribute">Change Attribute</button>
