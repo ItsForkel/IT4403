@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>jQuery ready and Event Handling</title>
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript">
+
+	$(document).ready(function(){
+		$("#button1").click(function(){
+			$("#paragraph1").hide();
+		});
+		$("#button2").click(function(){
+			$("#paragraph2").hide();
+		});
+
+	});
+
+	</script>
+
+</head>
+<body>
+
+<h1>jQuery ready() and Event Handling</h1>
+
+<p id="paragraph1">The Sun stands as the ultimate powerhouse of our solar system, an immense, glowing sphere of hot plasma that sustains all life on Earth. Located at the center of our planetary neighborhood, it generates light and heat through a continuous process of nuclear fusion deep within its core. This massive star drives our global climate, dictates the changing seasons, and powers the water cycle. Beyond its biological necessity, the Sun has served as a central symbol of power, energy, and renewal across human civilizations for millennia, marking the boundary between night and day.</p>
+<p id="paragraph2">The Moon, Earth's only natural satellite, serves as a serene, nightly companion that balances the fierce energy of the Sun. It shines by reflecting sunlight, shifting through a predictable cycle of lunar phases that has guided human timekeeping for thousands of years. Though it lacks an atmosphere and remains structurally quiet, the Moon exerts a powerful gravitational pull on Earth, creating ocean tides and stabilizing our planet's axial tilt. Visually striking against the dark night sky, its cratered surface has long inspired art, mythology, and the human drive for space exploration.</p>
+<button id="button1">Hide Paragraph 1</button>
+<button id="button2">Hide Paragraph 2</button>
+
+</body>
+</html>
