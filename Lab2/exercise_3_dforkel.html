@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Sun, Moon, and Stars</title>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		$("#idButton").click(function(){
+			$("#moon").css("color", "blue");
+		});
+
+		$("#classButton").click(function(){
+			$(".spaceInfo").css("background-color", "lightgray");
+		});
+
+		$("#elementButton").click(function(){
+			$("li").css("font-size", "20px");
+		});
+
+		$("#readText").click(function(){
+			var text=$("#moon").text();
+			$("#output").text("Text: "+text);
+		});
+
+		$("#readHTML").click(function(){
+			var html=$("#stars").html();
+			$("#output").text("HTML: "+html);
+		});
+
+		$("#changeText").click(function(){
+			$("#moon").text("The Moon is now the focus!");
+		});
+
+		$("#changeHTML").click(function(){
+			$("#stars").html("The stars are <b>bright objects in the night sky</b>.");
+		});
+
+		$("#readAttribute").click(function(){
+			var link=$("#nasaLink").attr("href");
+			$("#output").text("Link: "+link);
+		});
+
+		$("#changeAttribute").click(function(){
+			$("#nasaLink").attr("href", "https://www.nasa.gov");
+		});
+
+		$("#hideButton").click(function(){
+			$("#moon").hide();
+		});
+
+		$("#showButton").click(function(){
+			$("#moon").show();
+		});
+
+		$("#toggleButton").click(function(){
+			$("#moon").toggle();
+		});
+
+		$("#cssButton").click(function(){
+			$("#styleBox").css({
+				"background-color": "darkblue",
+				"color": "white",
+				"font-size": "22px",
+				"border": "3px solid white",
+				"width": "350px",
+				"height": "100px"
+			});
+		});
+
+	});
+
+	</script>
+
+</head>
+<body>
+
+<h1>Sun, Moon, and Stars</h1>
+
+<p class="spaceinfo">
+	The Sun provides light and heat to Earth.
+</p>
+<p class="spaceinfo" id="moon">
+	The Moon orbits Earth and can be seen in the night sky.
+</p>
+<p id="stars">
+	Stars are <b>large glowing objects</b> found throughout space.
+</p>
+<a id="nasalink" href="https://www.nasa.gov">
+	Visit NASA
+</a>
+
+<h2>Space Objects</h2>
+
+<ul>
+	<li>Sun</li>
+	<li>Moon</li>
+	<li>Stars</li>
+</ul>
+
+<h2>Selectors</h2>
+
+<button id="idButton">Select by ID</button>
+<button id="classButton">Select by Class</button>
+<button id="elementButton">Select by Element</button>
+
+<h2>DOM Manipulation</h2>
+
+<button id="readText">Read Text</button>
+<button id="readHTML">Read HTML</button>
+<button id="changeText">Change Text</button>
+<button id="changeHTML">Change HTML</button>
+<button id="readAttribute">Read Attribute</button>
+<button id="changeAttribute">Change Attribute</button>
+
+<h2>Visibility</h2>
+
+<button id="hideButton">Hide</button>
+<button id="showButton">Show</button>
+<button id="toggleButton">Toggle</button>
+
+<h2>CSS Manipulation</h2>
+
+<div id="styleBox">
+	This box represents the night sky.
+</div>
+
+<br />
+
+<button id="cssButton">Change CSS</button>
+
+<h2>Output</h2>
+
+<p id="output"></p>
+
+</body>
+</html>
