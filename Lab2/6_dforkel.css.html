@@ -5,7 +5,22 @@
         <title>jQuery CSS</title>
 		<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <script type="text/javascript">
+$(document).ready(function(){
 
+$("#change1").click(function(){
+	changeStyle();
+});
+$("#change2").click(function(){
+	changeColor();
+});
+$("#change3").click(function(){
+	changeSize();
+});
+$("#change4").click(function(){
+	changeBorder();
+});
+
+});
             function getRandomColorCode()
 	        {
 		        var red=Math.floor(Math.random()*255);
