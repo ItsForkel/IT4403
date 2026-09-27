@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Sky Picture Browser</title>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		var images=[
+			"pictures/IMG_2620.jpeg",
+			"pictures/IMG_3363.jpeg",
+			"pictures/IMG_4867.jpeg",
+			"pictures/IMG_8504.jpeg",
+			"pictures/IMG_9496.jpeg"
+		];
+
+		var captions=[
+			"Dusk at the Park",
+			"Super Sunset",
+			"Landscape Sunset",
+			"Colorful Sky",
+			"Lake Sunset"
+		];
+
+		var currentimage=0;
+
+		$("#caption").text(captions[currentimage]);
+		$("#counter").text("Image 1 of "+images.length);
+		$("#nextbutton").click(function(){
+
+			currentimage++;
+
+			if (currentimage>=images.length)
+			{
+				currentimage=0;
+			}
+
+			$("#picture").fadeOut(function(){
+
+				$("#picture").attr("src", images[currentimage]);
+				$("#caption").text(captions[currentimage]);
+				$("#counter").text(
+					"Image "+(currentimage+1)+" of "+images.length
+				);
+				$("#picture").fadeIn();
+
+			});
+
+		});
+
+	});
+
+	</script>
+
+</head>
+<body>
+
+<h1>Sky Picture Browser</h1>
+
+<img
+	id="picture"
+	src="pictures/IMG_2620.jpeg"
+	width="600"
+	alt="Sky photograph"
+/>
+
+<h2 id="caption">Dusk at the Park</h2>
+
+<p id="counter">Image 1 of 5</p>
+<button id="nextbutton">Next</button>
+
+<p>All photographs were taken by David Forkel.</p>
+
+</body>
+</html>

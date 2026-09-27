@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>jQuery Calculator</title>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		$("#calculatebutton").click(function(){
+
+			var value1=$("#number1").val();
+			var value2=$("#number2").val();
+			var operation=$("#operation").val();
+			var color=$("#resultcolor").val();
+
+			$("#error").text("");
+			$("#result").text("");
+
+			if (value1=="" || value2=="")
+			{
+				$("#error").text("Please enter both numbers.");
+				return;
+			}
+
+			var number1=parseFloat(value1);
+			var number2=parseFloat(value2);
+
+			if (isNaN(number1) || isNaN(number2))
+			{
+				$("#error").text("Please enter valid numbers.");
+				return;
+			}
+
+			var result;
+
+			if (operation=="add")
+			{
+				result=number1+number2;
+			}
+			else if (operation=="subtract")
+			{
+				result=number1-number2;
+			}
+			else if (operation=="multiply")
+			{
+				result=number1*number2;
+			}
+			else if (operation=="divide")
+			{
+				if (number2==0)
+				{
+					$("#error").text("Cannot divide by zero.");
+					return;
+				}
+				result=number1/number2;
+			}
+			$("#result").text("Result: "+result);
+
+			if (color!="")
+			{
+				$("#result").css("color", color);
+			}
+
+		});
+
+	});
+
+	</script>
+
+</head>
+
+<body>
+
+<h1>jQuery Calculator</h1>
+
+<p>
+	First Number: <input type="text" id="number1" />
+</p>
+<p>
+	Second Number: <input type="text" id="number2" />
+</p>
+
+<p>
+	Select Calculation:
+
+	<select id="operation">
+		<option value="add">Addition (+)</option>
+		<option value="subtract">Subtraction (-)</option>
+		<option value="multiply">Multiplication (*)</option>
+		<option value="divide">Division (/)</option>
+	</select>
+</p>
+
+<p>
+	Result Color:
+	<input type="text" id="resultcolor" placeholder="red, blue, green" />
+</p>
+
+<button id="calculatebutton">Calculate</button>
+
+<p id="error"></p>
+
+<h2 id="result"></h2>
+
+</body>
+</html>
