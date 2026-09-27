@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>iPhone Table Selection</title>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript">
+
+	$(document).ready(function(){
+
+		$("#iphonetable tr:odd").css({
+			"background-color": "lightgray",
+			"font-style": "italic"
+		});
+		$("#hideodd").click(function(){
+			$("#iphonetable tr:odd").hide();
+		});
+		$("#showodd").click(function(){
+			$("#iphonetable tr:odd").show();
+		});
+		$("#iphonetable tr:not(:first)").click(function(){
+			$(this).hide();
+		});
+
+	});
+
+	</script>
+
+</head>
+
+<body>
+
+<h1>iPhone Models</h1>
+
+<table id="iphonetable" border="1">
+
+	<tr>
+		<th>Model</th>
+		<th>Release Year</th>
+		<th>Screen Size</th>
+	</tr>
+
+	<tr>
+		<td>iPhone 14</td>
+		<td>2022</td>
+		<td>6.1 inches</td>
+	</tr>
+
+	<tr>
+		<td>iPhone 14 Pro Max</td>
+		<td>2022</td>
+		<td>6.7 inches</td>
+	</tr>
+
+	<tr>
+		<td>iPhone 15</td>
+		<td>2023</td>
+		<td>6.1 inches</td>
+	</tr>
+
+	<tr>
+		<td>iPhone 15 Pro Max</td>
+		<td>2023</td>
+		<td>6.7 inches</td>
+	</tr>
+
+	<tr>
+		<td>iPhone 16 Pro Max</td>
+		<td>2024</td>
+		<td>6.9 inches</td>
+	</tr>
+
+</table>
+
+<br />
+
+<button id="hideodd">Hide Odd Rows</button>
+<button id="showodd">Show Odd Rows</button>
+
+<p>Click row to hide.</p>
+
+</body>
+
+</html>
