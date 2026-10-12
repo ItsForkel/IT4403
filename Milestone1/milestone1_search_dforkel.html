@@ -74,12 +74,22 @@
                     bookHTML += "<p><b>Edition Count:</b> " +
                         (book.edition_count != null ? book.edition_count : "Unavailable") + "</p>";
 
-                    bookHTML += "<p><b>Language:</b> " +
-                        (book.language && book.language.length > 0 ?
-                        book.language.join(", ") : "Unavailable") + "</p>";
+                        var language = book.language && book.language.length > 0 ?
+                        book.language[0] : "Unavailable";
+                        if (language == "eng") {
+                            language = "English";
+}   
+                    bookHTML += "<p><b>Language:</b> " + language + "</p>";
 
-                    bookHTML += "<p><b>Ebook Access:</b> " +
-                        (book.ebook_access || "Unavailable") + "</p>";
+                    var ebook = book.ebook_access || "Unavailable";
+                    if (ebook == "no_ebook") {
+                        ebook = "No eBook Available";
+}
+                    else if (ebook == "borrowable") {
+                        ebook = "Available to Borrow";
+}
+
+                    bookHTML += "<p><b>Ebook Access:</b> " + ebook + "</p>";
 
                     bookHTML += "<p><b>ISBN:</b> " +
                         (book.isbn && book.isbn.length > 0 ?
