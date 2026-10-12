@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 3 - Exercise 1</title>
+</head>
+<body>
+
+    <h1>Lab 3: JSON - Exercise 1</h1>
+    <h2>Understanding JSON Structure</h2>
+
+    <p>
+        From what I observed, the JSON file contains information about
+        the book Fantastic Mr. Fox. The information is organized into
+        different name/value pairs, objects, arrays, and nested structures.
+    </p>
+
+    <h3>Name/Value Pair</h3>
+    <p>
+        A name/value pair basically connects a key to its value.
+        An example would be the title of the book.
+    </p>
+    <pre>"title": "Fantastic Mr. Fox"</pre>
+
+    <h3>Object</h3>
+    <p>
+        An object uses curly brackets to organize different pieces
+        of information together.
+    </p>
+    <pre>
+"first_sentence": {
+    "type": "/type/text",
+    "value": "Down in the valley there were three farms."
+}
+    </pre>
+
+    <h3>Array</h3>
+    <p>
+        An array is a collection of values stored together using
+        square brackets.
+    </p>
+    <pre>"covers": [15152634, 8739161, -1]</pre>
+
+    <h3>Nested Structure</h3>
+    <p>
+        A nested structure is when an object or array contains
+        additional information within it. An example would be
+        the authors array, which contains an object.
+    </p>
+    <pre>
+"authors": [
+    {
+        "key": "/authors/OL34184A"
+    }
+]
+    </pre>
+
+</body>
+</html>
