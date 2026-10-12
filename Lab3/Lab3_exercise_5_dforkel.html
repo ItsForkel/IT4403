@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 3 - Exercise 5</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+
+    <h1>Lab 3: JSON - Exercise 5</h1>
+    <h2>Reading Weather Data from JSON</h2>
+
+    <h3>Weather Information</h3>
+    <div id="weatherInfo"></div>
+
+    <script>
+        $(function() {
+
+            $.getJSON("weather.json", function(json) {
+
+                // added a convert for kelvin to farenheit -df
+                var temperature = ((json.main.temp - 273.15) * 9/5 + 32).toFixed(1);
+                var weatherHTML = "";
+
+                weatherHTML += "Location: " + json.name + ", " + json.sys.country + "<br>";
+                weatherHTML += "Temperature: " + temperature + "°F<br>";
+                weatherHTML += "Weather: " + json.weather[0].main + "<br>";
+                weatherHTML += "Description: " + json.weather[0].description + "<br>";
+                weatherHTML += "Humidity: " + json.main.humidity + "%<br>";
+                weatherHTML += "Wind Speed: " + json.wind.speed + " m/s<br>";
+                weatherHTML += "Wind Direction: " + json.wind.deg + "°<br>";
+                $("#weatherInfo").html(weatherHTML);
+
+            });
+
+        });
+    </script>
+
+</body>
+</html>

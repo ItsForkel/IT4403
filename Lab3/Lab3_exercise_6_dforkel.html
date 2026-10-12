@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 3 - Exercise 6</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+
+    <h1>Lab 3: JSON - Exercise 6</h1>
+    <h2>Movie Information Page</h2>
+
+    <h3>Movie Details</h3>
+    <div id="movieInfo"></div>
+
+    <h3>Genres</h3>
+    <div id="genres"></div>
+
+    <h3>Ratings</h3>
+    <div id="ratings"></div>
+
+    <h3>Cast</h3>
+    <div id="cast"></div>
+
+    <script>
+        $(function() {
+
+            $.getJSON("movie.json", function(json) {
+                var movieHTML = "";
+
+                movieHTML += "Title: " + json.title + "<br>";
+                movieHTML += "Year: " + json.year + "<br>";
+                movieHTML += "Release Date: " + json.release_dates.theater + "<br>";
+                movieHTML += "Runtime: " + json.runtime + " minutes<br>";
+                movieHTML += "MPAA Rating: " + json.mpaa_rating + "<br><br>";
+                movieHTML += "Synopsis: " + json.synopsis + "<br>";
+
+                $("#movieInfo").html(movieHTML);
+                var genreHTML = "";
+
+                for (var i = 0; i < json.genres.length; i++) {
+                    genreHTML += json.genres[i] + "<br>";
+                }
+
+                $("#genres").html(genreHTML);
+
+                var ratingHTML = "";
+
+                ratingHTML += "Critics Rating: " + json.ratings.critics_rating + "<br>";
+                ratingHTML += "Critics Score: " + json.ratings.critics_score + "%<br>";
+                ratingHTML += "Audience Rating: " + json.ratings.audience_rating + "<br>";
+                ratingHTML += "Audience Score: " + json.ratings.audience_score + "%<br>";
+
+                $("#ratings").html(ratingHTML);
+                
+                var castHTML = "";
+
+                for (var i = 0; i < json.abridged_cast.length; i++) {
+                    castHTML += json.abridged_cast[i].name +
+                        " - " + json.abridged_cast[i].characters[0] + "<br>";
+                }
+
+                $("#cast").html(castHTML);
+
+            });
+
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 3 - Exercise 4</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+
+    <h1>Lab 3: JSON - Exercise 4</h1>
+    <h2>Working with Nested JSON Data</h2>
+
+    <h3>Student Information</h3>
+    <div id="studentInfo"></div>
+
+    <h3>Courses</h3>
+    <div id="courses"></div>
+
+    <script>
+        $(function() {
+
+            var json = {
+                "Student": {
+                    "Name": "David Forkel",
+                    "Major": "Information Technology",
+                    "Email": "dforkel@students.kennesaw.edu",
+                    "Courses": [
+                        {
+                            "Code": "IT 4403",
+                            "Title": "Adv Web and Mobile App",
+                            "CreditHours": 3
+                        },
+                        {
+                            "Code": "IT 4823",
+                            "Title": "Information Sec. Admin",
+                            "CreditHours": 3
+                        },
+                        {
+                            "Code": "HMI 7510",
+                            "Title": "Intro to Healthcare Management and Informatics",
+                            "CreditHours": 3
+                        },
+                        {
+                            "Code": "GEOG 1110",
+                            "Title": "The Digital Earth",
+                            "CreditHours": 3
+                        }
+                    ]
+                }
+            };
+            $("#studentInfo").html(
+                "Name: " + json.Student.Name + "<br>" +
+                "Major: " + json.Student.Major + "<br>" +
+                "Email: " + json.Student.Email
+            );
+
+            var courseHTML = "";
+
+            for (var i = 0; i < json.Student.Courses.length; i++) {
+                courseHTML +=
+                    "Course Code: " + json.Student.Courses[i].Code + "<br>" +
+                    "Course Title: " + json.Student.Courses[i].Title + "<br>" +
+                    "Credit Hours: " + json.Student.Courses[i].CreditHours +
+                    "<br><br>";
+            }
+
+            $("#courses").html(courseHTML);
+
+        });
+    </script>
+
+</body>
+</html>

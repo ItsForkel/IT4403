@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 3 - Exercise 3</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+
+    <h1>Lab 3: JSON - Exercise 3</h1>
+    <h2>Reading JSON Using JavaScript and jQuery</h2>
+
+    <h3>First Book Information</h3>
+    <div id="firstBook"></div>
+
+    <h3>All Books</h3>
+    <div id="allBooks"></div>
+
+    <h3>Total Number of Books</h3>
+    <div id="totalBooks"></div>
+
+    <script>
+        $(function() {
+
+            var json = {
+                "Books": [
+                    {
+                        "Title": "Web Development Basics",
+                        "Author": "Maya Lee",
+                        "Price": 29.99
+                    },
+                    {
+                        "Title": "Modern JavaScript",
+                        "Author": "Daniel Kim",
+                        "Price": 34.50
+                    },
+                    {
+                        "Title": "Understanding JSON",
+                        "Author": "Sofia Patel",
+                        "Price": 24.95
+                    }
+                ]
+            };
+            $("#firstBook").html(
+                "Title: " + json.Books[0].Title + "<br>" +
+                "Author: " + json.Books[0].Author + "<br>" +
+                "Price: $" + json.Books[0].Price.toFixed(2)
+            );
+            var bookHTML = "";
+
+            for (var i = 0; i < json.Books.length; i++) {
+                bookHTML += "Title: " + json.Books[i].Title +
+                            " - Author: " + json.Books[i].Author + "<br>";
+            }
+
+            $("#allBooks").html(bookHTML);
+            $("#totalBooks").html(json.Books.length);
+
+        });
+    </script>
+
+</body>
+</html>
