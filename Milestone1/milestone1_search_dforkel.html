@@ -60,9 +60,12 @@
                     bookHTML += "<h2>" + (book.title || "Unavailable") + "</h2>";
 
                     if (book.cover_i) {
-                        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
-                            book.cover_i + "-M.jpg' alt='Cover of " + book.title + "'>";
-                    }
+                    bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                    book.cover_i + "-M.jpg' alt='Cover of " + book.title + "'>";
+}
+                else {
+                    bookHTML += "<p style='text-align: center;'>Cover Image Unavailable</p>";
+}
 
                     bookHTML += "<p><b>Author:</b> " +
                         (book.author_name && book.author_name.length > 0 ?
