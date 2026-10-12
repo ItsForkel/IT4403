@@ -1,165 +1,314 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>David Forkel - IT4403 Labs</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #232323;
+            color: white;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            background-color: #69369E;
+            padding: 15px 20px;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navigation a {
+            width: 160px;
+            background-color: #7951A8;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 15px 10px;
+            font-size: 23px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .navigation a:hover {
+            background-color: #9066BE;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: normal;
+            font-size: 40px;
+        }
+
+        h2 {
+            background-color: #69369E;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 35px;
+        }
+
+        .lab {
+            background-color: #828282;
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(105, 54, 158, 0.5);
+        }
+
+        .lab h3 {
+            margin-top: 20px;
+        }
+
+        .lab a {
+            color: white;
+        }
+
+        .lab li {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .navigation {
+                flex-wrap: wrap;
+            }
+
+            .navigation a {
+                margin: 5px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin-top: 25px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .navigation a {
+                width: 80%;
+                font-size: 18px;
+            }
+
+            .lab {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>IT4403 Labs</h1>
+    <nav class="navigation">
 
-<h2>Lab 2: jQuery</h2>
-
-<h3>Exercise 1: JavaScript and jQuery Comparison</h3>
-
-<ul>
-    <li>
-        <a href="Lab2/1.calculation_dforkel.html">
-            Calculation and Output
+        <a href="index.html">
+            HOME
         </a>
-    </li>
-    <li>
-        <a href="Lab2/2.loop_dforkel.html">
-            Loops
+
+        <a href="labs.html">
+            LABS
         </a>
-    </li>
-    <li>
-        <a href="Lab2/3.function_dforkel.html">
-            Functions
+
+        <a href="projects.html">
+            PROJECTS
         </a>
-    </li>
-    <li>
-        <a href="Lab2/4.dom-get_dforkel.html">
-            DOM Access and Manipulation
-        </a>
-    </li>
-    <li>
-        <a href="Lab2/5.click_dforkel.html">
-            Click Events
-        </a>
-    </li>
-    <li>
-        <a href="Lab2/6_dforkel.css.html">
-            CSS Manipulation
-        </a>
-    </li>
-</ul>
 
-<h3>Exercise 2: jQuery ready() and Event Handling</h3>
+    </nav>
 
-<ul>
-	<li>
-		<a href="Lab2/exercise_2_dforkel.html">
-			jQuery ready() and Event Handling
-		</a>
-	</li>
-</ul> 
+    <div class="container">
 
-<h3>Exercise 3: jQuery Selectors, DOM, and CSS</h3>
+        <h1>IT4403 Labs</h1>
 
-<ul>
-	<li>
-		<a href="Lab2/exercise_3_dforkel.html">
-			jQuery Selectors, DOM, and CSS (space-themed for fun)
-		</a>
-	</li>
-</ul>
-<h3>Exercise 4: Table Selection and Event Handling</h3>
+        <h2>Lab 2: jQuery</h2>
 
-<ul>
-	<li>
-		<a href="Lab2/exercise_4_dforkel.html">
-			Table Selection and Event Handling
-		</a>
-	</li>
-</ul>
+        <div class="lab">
 
-<h3>Exercise 5: jQuery Visual Effects</h3>
+            <h3>Exercise 1: JavaScript and jQuery Comparison</h3>
 
-<ul>
-	<li>
-		<a href="Lab2/exercise_5_dforkel.html">
-			jQuery Visual Effects
-		</a>
-	</li>
-</ul>
+            <ul>
+                <li>
+                    <a href="Lab2/1.calculation_dforkel.html">
+                        Calculation and Output
+                    </a>
+                </li>
+                <li>
+                    <a href="Lab2/2.loop_dforkel.html">
+                        Loops
+                    </a>
+                </li>
+                <li>
+                    <a href="Lab2/3.function_dforkel.html">
+                        Functions
+                    </a>
+                </li>
+                <li>
+                    <a href="Lab2/4.dom-get_dforkel.html">
+                        DOM Access and Manipulation
+                    </a>
+                </li>
+                <li>
+                    <a href="Lab2/5.click_dforkel.html">
+                        Click Events
+                    </a>
+                </li>
+                <li>
+                    <a href="Lab2/6_dforkel.css.html">
+                        CSS Manipulation
+                    </a>
+                </li>
+            </ul>
 
-<h3>Exercise 6: jQuery Calculator Application</h3>
+            <h3>Exercise 2: jQuery ready() and Event Handling</h3>
 
-<ul>
-	<li>
-		<a href="Lab2/exercise_6_dforkel.html">
-			Calculator Application
-		</a>
-	</li>
-</ul>
+            <ul>
+                <li>
+                    <a href="Lab2/exercise_2_dforkel.html">
+                        jQuery ready() and Event Handling
+                    </a>
+                </li>
+            </ul>
 
-<h3>Exercise 7: Picture Browser Application</h3>
+            <h3>Exercise 3: jQuery Selectors, DOM, and CSS</h3>
 
-<ul>
-	<li>
-		<a href="Lab2/exercise_7_dforkel.html">
-			Picture Browser Application
-		</a>
-	</li>
-</ul>
+            <ul>
+                <li>
+                    <a href="Lab2/exercise_3_dforkel.html">
+                        jQuery Selectors, DOM, and CSS (space-themed for fun)
+                    </a>
+                </li>
+            </ul>
 
-<h2>Lab 3: JSON</h2>
+            <h3>Exercise 4: Table Selection and Event Handling</h3>
 
-<h3>Exercise 1: Understanding JSON Structure</h3>
-<ul>
-    <li>
-        <a href="Lab3/Lab3_exercise_1_dforkel.html">
-            Understanding JSON Structure
-        </a>
-    </li>
-</ul>
+            <ul>
+                <li>
+                    <a href="Lab2/exercise_4_dforkel.html">
+                        Table Selection and Event Handling
+                    </a>
+                </li>
+            </ul>
 
-<h3>Exercise 2: Create and Validate JSON</h3>
-<ul>
-    <li>
-        <a href="Lab3/Lab3_exercise_2_dforkel.html">
-            Create and Validate JSON
-        </a>
-    </li>
-</ul>
+            <h3>Exercise 5: jQuery Visual Effects</h3>
 
-<h3>Exercise 3: Read JSON Using JavaScript and jQuery</h3>
-<ul>
-    <li>
-        <a href="Lab3/Lab3_exercise_3_dforkel.html">
-            Read JSON Using JavaScript and jQuery
-        </a>
-    </li>
-</ul>
+            <ul>
+                <li>
+                    <a href="Lab2/exercise_5_dforkel.html">
+                        jQuery Visual Effects
+                    </a>
+                </li>
+            </ul>
 
-<h3>Exercise 4: Work with Nested JSON Data</h3>
-<ul>
-    <li>
-        <a href="Lab3/Lab3_exercise_4_dforkel.html">
-            Work with Nested JSON Data
-        </a>
-    </li>
-</ul>
+            <h3>Exercise 6: jQuery Calculator Application</h3>
 
-<h3>Exercise 5: Read and Display JSON from a File</h3>
-<ul>
-    <li>
-        <a href="Lab3/Lab3_exercise_5_dforkel.html">
-            Read and Display Weather JSON
-        </a>
-    </li>
-</ul>
+            <ul>
+                <li>
+                    <a href="Lab2/exercise_6_dforkel.html">
+                        Calculator Application
+                    </a>
+                </li>
+            </ul>
 
-<h3>Exercise 6: Movie Information Page</h3>
-<ul>
-    <li>
-        <a href="Lab3/Lab3_exercise_6_dforkel.html">
-            Movie Information Page
-        </a>
-    </li>
-</ul>
+            <h3>Exercise 7: Picture Browser Application</h3>
+
+            <ul>
+                <li>
+                    <a href="Lab2/exercise_7_dforkel.html">
+                        Picture Browser Application
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+        <h2>Lab 3: JSON</h2>
+
+        <div class="lab">
+
+            <h3>Exercise 1: Understanding JSON Structure</h3>
+            <ul>
+                <li>
+                    <a href="Lab3/Lab3_exercise_1_dforkel.html">
+                        Understanding JSON Structure
+                    </a>
+                </li>
+            </ul>
+
+            <h3>Exercise 2: Create and Validate JSON</h3>
+            <ul>
+                <li>
+                    <a href="Lab3/Lab3_exercise_2_dforkel.html">
+                        Create and Validate JSON
+                    </a>
+                </li>
+            </ul>
+
+            <h3>Exercise 3: Read JSON Using JavaScript and jQuery</h3>
+            <ul>
+                <li>
+                    <a href="Lab3/Lab3_exercise_3_dforkel.html">
+                        Read JSON Using JavaScript and jQuery
+                    </a>
+                </li>
+            </ul>
+
+            <h3>Exercise 4: Work with Nested JSON Data</h3>
+            <ul>
+                <li>
+                    <a href="Lab3/Lab3_exercise_4_dforkel.html">
+                        Work with Nested JSON Data
+                    </a>
+                </li>
+            </ul>
+
+            <h3>Exercise 5: Read and Display JSON from a File</h3>
+            <ul>
+                <li>
+                    <a href="Lab3/Lab3_exercise_5_dforkel.html">
+                        Read and Display Weather JSON
+                    </a>
+                </li>
+            </ul>
+
+            <h3>Exercise 6: Movie Information Page</h3>
+            <ul>
+                <li>
+                    <a href="Lab3/Lab3_exercise_6_dforkel.html">
+                        Movie Information Page
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
 </body>
-
 </html>

@@ -9,41 +9,147 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background-color: white;
-            color: black;
+            background-color: #232323;
+            color: white;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            background-color: #69369E;
+            padding: 15px 20px;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navigation a {
+            width: 160px;
+            background-color: #7951A8;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 15px 10px;
+            font-size: 23px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .navigation a:hover {
+            background-color: #9066BE;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 40px auto;
+        }
+
         h1, h2 {
             text-align: center;
         }
+
+        h1 {
+            font-size: 40px;
+            font-weight: normal;
+        }
+
         .book {
-            background-color: #b3b3b3;
+            background-color: #828282;
             padding: 25px;
             margin: 30px auto;
             max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(105, 54, 158, 0.5);
         }
+
         .book img {
             display: block;
             margin: 20px auto;
             max-width: 200px;
+            border-radius: 5px;
         }
+
         .book p {
             line-height: 1.5;
         }
 
-        a {
-            color: black;
+        .book a {
+            color: white;
+        }
+
+        @media (max-width: 900px) {
+            .navigation {
+                flex-wrap: wrap;
+            }
+
+            .navigation a {
+                margin: 5px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin-top: 25px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .navigation a {
+                width: 80%;
+                font-size: 18px;
+            }
+
+            .book {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>Milestone 1: Open Library JSON Data Display</h1>
-    <h2>Book Search Results</h2>
-    <div id="bookResults"></div>
+    <nav class="navigation">
+
+        <a href="../index.html">
+            HOME
+        </a>
+
+        <a href="../labs.html">
+            LABS
+        </a>
+
+        <a href="../projects.html">
+            PROJECTS
+        </a>
+
+    </nav>
+
+    <div class="container">
+
+        <h1>Milestone 1: Open Library JSON Data Display</h1>
+        <h2>Book Search Results</h2>
+        <div id="bookResults"></div>
+
+    </div>
 
     <script>
         $(function() {
@@ -60,12 +166,12 @@
                     bookHTML += "<h2>" + (book.title || "Unavailable") + "</h2>";
 
                     if (book.cover_i) {
-                    bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
-                    book.cover_i + "-M.jpg' alt='Cover of " + book.title + "'>";
-}
-                else {
-                    bookHTML += "<p style='text-align: center;'>Cover Image Unavailable</p>";
-}
+                        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                            book.cover_i + "-M.jpg' alt='Cover of " + book.title + "'>";
+                    }
+                    else {
+                        bookHTML += "<p style='text-align: center;'>Cover Image Unavailable</p>";
+                    }
 
                     bookHTML += "<p><b>Author:</b> " +
                         (book.author_name && book.author_name.length > 0 ?
@@ -77,20 +183,23 @@
                     bookHTML += "<p><b>Edition Count:</b> " +
                         (book.edition_count != null ? book.edition_count : "Unavailable") + "</p>";
 
-                        var language = book.language && book.language.length > 0 ?
+                    var language = book.language && book.language.length > 0 ?
                         book.language[0] : "Unavailable";
-                        if (language == "eng") {
-                            language = "English";
-}   
+
+                    if (language == "eng") {
+                        language = "English";
+                    }
+
                     bookHTML += "<p><b>Language:</b> " + language + "</p>";
 
                     var ebook = book.ebook_access || "Unavailable";
+
                     if (ebook == "no_ebook") {
                         ebook = "No eBook Available";
-}
+                    }
                     else if (ebook == "borrowable") {
                         ebook = "Available to Borrow";
-}
+                    }
 
                     bookHTML += "<p><b>Ebook Access:</b> " + ebook + "</p>";
 
