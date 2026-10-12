@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Milestone 1: Open Library JSON Data Display</title>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: white;
+            color: black;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .book {
+            background-color: #b3b3b3;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 800px;
+        }
+        .book img {
+            display: block;
+            margin: 20px auto;
+            max-width: 200px;
+        }
+        .book p {
+            line-height: 1.5;
+        }
+
+        a {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Milestone 1: Open Library JSON Data Display</h1>
+    <h2>Book Search Results</h2>
+    <div id="bookResults"></div>
+
+    <script>
+        $(function() {
+            $.getJSON("search.json", function(json) {
+
+                var bookHTML = "";
+
+                for (var i = 0; i < json.docs.length; i++) {
+
+                    var book = json.docs[i];
+
+                    bookHTML += "<div class='book'>";
+
+                    bookHTML += "<h2>" + (book.title || "Unavailable") + "</h2>";
+
+                    if (book.cover_i) {
+                        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                            book.cover_i + "-M.jpg' alt='Cover of " + book.title + "'>";
+                    }
+
+                    bookHTML += "<p><b>Author:</b> " +
+                        (book.author_name && book.author_name.length > 0 ?
+                        book.author_name.join(", ") : "Unavailable") + "</p>";
+
+                    bookHTML += "<p><b>First Publication Year:</b> " +
+                        (book.first_publish_year || "Unavailable") + "</p>";
+
+                    bookHTML += "<p><b>Edition Count:</b> " +
+                        (book.edition_count != null ? book.edition_count : "Unavailable") + "</p>";
+
+                    bookHTML += "<p><b>Language:</b> " +
+                        (book.language && book.language.length > 0 ?
+                        book.language.join(", ") : "Unavailable") + "</p>";
+
+                    bookHTML += "<p><b>Ebook Access:</b> " +
+                        (book.ebook_access || "Unavailable") + "</p>";
+
+                    bookHTML += "<p><b>ISBN:</b> " +
+                        (book.isbn && book.isbn.length > 0 ?
+                        book.isbn[0] : "Unavailable") + "</p>";
+
+                    bookHTML += "<p><b>Publisher:</b> " +
+                        (book.publisher && book.publisher.length > 0 ?
+                        book.publisher.join(", ") : "Unavailable") + "</p>";
+
+                    if (book.key) {
+                        bookHTML += "<p><a href='https://openlibrary.org" +
+                            book.key + "' target='_blank'>View Book on Open Library</a></p>";
+                    }
+
+                    bookHTML += "</div>";
+                }
+
+                $("#bookResults").html(bookHTML);
+
+            }).fail(function() {
+                $("#bookResults").html("<p>Book Information Unavailable</p>");
+            });
+
+        });
+    </script>
+
+</body>
+</html>

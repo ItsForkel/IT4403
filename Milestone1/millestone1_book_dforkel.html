@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Milestone 1: Open Library JSON Data Display</title>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: white;
+            color: black;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .book {
+            background-color: #b3b3b3;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 800px;
+        }
+        .book img {
+            display: block;
+            margin: 20px auto;
+            max-width: 200px;
+        }
+        .book p {
+            line-height: 1.5;
+        }
+
+        a {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Milestone 1: Open Library JSON Data Display</h1>
+    <h2>Single-Book Information</h2>
+    <div class="book" id="bookInfo"></div>
+
+    <script>
+        $(function() {
+            $.getJSON("book.json", function(json) {
+
+                var bookHTML = "";
+
+                bookHTML += "<h2>" + json.title + "</h2>";
+
+                if (json.covers && json.covers.length > 0) {
+                    bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                        json.covers[0] + "-M.jpg' alt='Cover of " + json.title + "'>";
+                }
+                bookHTML += "<p><b>Publisher:</b> " +
+                    (json.publishers ? json.publishers.join(", ") : "Unavailable") + "</p>";
+
+                bookHTML += "<p><b>Publication Date:</b> " +
+                    (json.publish_date || "Unavailable") + "</p>";
+
+                bookHTML += "<p><b>Number of Pages:</b> " +
+                    (json.number_of_pages || "Unavailable") + "</p>";
+
+                bookHTML += "<p><b>ISBN-10:</b> " +
+                    (json.isbn_10 ? json.isbn_10.join(", ") : "Unavailable") + "</p>";
+
+                bookHTML += "<p><b>ISBN-13:</b> " +
+                    (json.isbn_13 ? json.isbn_13.join(", ") : "Unavailable") + "</p>";
+
+                bookHTML += "<p><b>Author Reference:</b> " +
+                    (json.authors && json.authors.length > 0 ?
+                    json.authors[0].key : "Unavailable") + "</p>";
+
+                bookHTML += "<p><b>First Sentence:</b> " +
+                    (json.first_sentence ? json.first_sentence.value : "Unavailable") + "</p>";
+
+                bookHTML += "<p><b>Contributors:</b> " +
+                    (json.contributions ? json.contributions.join(", ") : "Unavailable") + "</p>";
+
+                bookHTML += "<p><a href='https://openlibrary.org" +
+                    json.key + "' target='_blank'>View Book on Open Library</a></p>";
+
+                $("#bookInfo").html(bookHTML);
+
+            }).fail(function() {
+                $("#bookInfo").html("<p>Book Information Unavailable</p>");
+            });
+
+        });
+    </script>
+
+</body>
+</html>
