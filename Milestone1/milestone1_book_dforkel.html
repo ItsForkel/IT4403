@@ -72,11 +72,11 @@
                 bookHTML += "<p><b>ISBN-13:</b> " +
                     (json.isbn_13 ? json.isbn_13.join(", ") : "Unavailable") + "</p>";
 
-                    bookHTML += "<p><b>Author:</b> " +
-    (json.authors && json.authors.length > 0 ?
-    "<a href='https://openlibrary.org" + json.authors[0].key +
-    "' target='_blank'>Roald Dahl</a>" : "Unavailable") + "</p>";
-    
+                bookHTML += "<p><b>Author:</b> " +
+                    (json.authors && json.authors.length > 0 ?
+                    "<a href='https://openlibrary.org" + json.authors[0].key +
+                     "' target='_blank'>Roald Dahl</a>" : "Unavailable") + "</p>";
+
                 bookHTML += "<p><b>First Sentence:</b> " +
                     (json.first_sentence ? json.first_sentence.value : "Unavailable") + "</p>";
 
