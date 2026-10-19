@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Milestone 2: Open Library API</title>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <nav class="navigation">
+
+        <a href="index.html">
+            HOME
+        </a>
+
+        <a href="bookshelf.html">
+            MY BOOKSHELF
+        </a>
+
+    </nav>
+
+    <div class="container">
+
+        <h1>Milestone 2: Open Library API</h1>
+        <h2>Book Search</h2>
+
+        <div class="search">
+
+            <input type="text" id="searchTerm" placeholder="Enter a book title or keyword">
+
+            <button id="searchButton">Search</button>
+
+        </div>
+
+        <div id="message"></div>
+
+        <div id="bookResults"></div>
+
+        <div class="pagination" id="pagination" style="display: none;">
+
+            <label for="pageSelect">Select Page:</label>
+
+            <select id="pageSelect"></select>
+
+        </div>
+
+    </div>
+
+    <script>
+        $(function() {
+
+            var currentSearch = "";
+            var currentPage = 1;
+            var resultsPerPage = 10;
+            var maxResults = 60;
+
+            $("#searchButton").click(function() {
+
+                var searchTerm = $("#searchTerm").val().trim();
+
+                if (searchTerm == "") {
+                    $("#message").html("<p>Please enter a search term.</p>");
+                    $("#bookResults").html("");
+                    $("#pagination").hide();
+                    return;
+                }
+
+                currentSearch = searchTerm;
+                currentPage = 1;
+
+                searchBooks();
+
+            });
+
+            $("#searchTerm").keypress(function(event) {
+
+                if (event.which == 13) {
+                    $("#searchButton").click();
+                }
+
+            });
+
+            $("#pageSelect").change(function() {
+
+                currentPage = parseInt($(this).val());
+
+                searchBooks();
+
+            });
+
+            function searchBooks() {
+
+                $("#message").html("<p>Searching for books...</p>");
+                $("#bookResults").html("");
+                $("#pagination").hide();
+
+                var searchURL = "https://openlibrary.org/search.json?q=" +
+                    encodeURIComponent(currentSearch) +
+                    "&limit=" + resultsPerPage +
+                    "&page=" + currentPage;
+
+                $.getJSON(searchURL, function(json) {
+
+                    var bookHTML = "";
+
+                    if (json.docs.length == 0) {
+
+                        $("#message").html("<p>No books found for your search.</p>");
+                        return;
+
+                    }
+
+                    for (var i = 0; i < json.docs.length; i++) {
+
+                        var book = json.docs[i];
+
+                        bookHTML += "<div class='book'>";
+
+                        if (book.key) {
+
+                            var workID = book.key.replace("/works/", "");
+
+                            bookHTML += "<h2><a href='details.html?id=" +
+                                encodeURIComponent(workID) + "'>" +
+                                $("<div>").text(book.title || "Unavailable").html() +
+                                "</a></h2>";
+
+                        }
+                        else {
+
+                            bookHTML += "<h2>" +
+                                $("<div>").text(book.title || "Unavailable").html() +
+                                "</h2>";
+
+                        }
+
+                        if (book.cover_i) {
+
+                            bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                                book.cover_i + "-S.jpg' alt='Book Cover'>";
+
+                        }
+                        else {
+
+                            bookHTML += "<p style='text-align: center;'>Cover Image Unavailable</p>";
+
+                        }
+
+                        bookHTML += "</div>";
+
+                    }
+
+                    $("#bookResults").html(bookHTML);
+
+                    var totalResults = Math.min(json.numFound || json.num_found || 0, maxResults);
+                    var totalPages = Math.ceil(totalResults / resultsPerPage);
+
+                    var pageHTML = "";
+
+                    for (var i = 1; i <= totalPages; i++) {
+
+                        pageHTML += "<option value='" + i + "'>Page " + i + "</option>";
+
+                    }
+
+                    $("#pageSelect").html(pageHTML);
+                    $("#pageSelect").val(currentPage);
+
+                    if (totalPages > 1) {
+                        $("#pagination").show();
+                    }
+
+                    $("#message").html("<p>Showing page " + currentPage +
+                        " of " + totalPages + " for: " +
+                        $("<div>").text(currentSearch).html() + "</p>");
+
+                }).fail(function() {
+
+                    $("#message").html("<p>Book Information Unavailable. Please try again.</p>");
+                    $("#bookResults").html("");
+                    $("#pagination").hide();
+
+                });
+
+            }
+
+        });
+    </script>
+
+</body>
+</html>
