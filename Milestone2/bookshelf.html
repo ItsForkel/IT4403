@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Milestone 2: My Bookshelf</title>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <nav class="navigation">
+
+        <a href="../projects.html">
+            PROJECTS
+        </a>
+
+        <a href="index.html">
+            HOME
+        </a>
+
+        <a href="bookshelf.html">
+            MY BOOKSHELF
+        </a>
+
+    </nav>
+
+    <div class="container">
+
+        <h1>Milestone 2: Open Library API</h1>
+        <h2>My Bookshelf</h2>
+
+        <div id="bookResults"></div>
+
+    </div>
+
+    <script>
+        $(function() {
+
+            var myBooks = [
+                "OL8483260W",
+                "OL17076678W",
+                "OL16224122W",
+                "OL16810620W",
+                "OL16797312W"
+            ];
+
+            for (var i = 0; i < myBooks.length; i++) {
+
+                var workID = myBooks[i];
+
+                var bookURL = "https://openlibrary.org/works/" +
+                    workID + ".json";
+
+                $.getJSON(bookURL, function(json) {
+
+                    var bookHTML = "";
+
+                    var bookID = json.key.replace("/works/", "");
+
+                    bookHTML += "<div class='book'>";
+
+                    bookHTML += "<h2><a href='details.html?id=" +
+                        encodeURIComponent(bookID) + "'>" +
+                        $("<div>").text(json.title || "Unavailable").html() +
+                        "</a></h2>";
+
+                    if (json.covers && json.covers.length > 0 && json.covers[0] > 0) {
+
+                        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                            json.covers[0] + "-M.jpg' alt='Book Cover'>";
+
+                    }
+                    else {
+
+                        bookHTML += "<p>Cover Image Unavailable</p>";
+
+                    }
+
+                    bookHTML += "</div>";
+
+                    $("#bookResults").append(bookHTML);
+
+                }).fail(function() {
+
+                    $("#bookResults").append(
+                        "<div class='book'><p>Book Information Unavailable</p></div>"
+                    );
+
+                });
+
+            }
+
+        });
+    </script>
+
+</body>
+</html>
