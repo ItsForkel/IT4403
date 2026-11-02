@@ -1,3 +1,4 @@
+
 * {
     box-sizing: border-box;
 }
@@ -166,4 +167,31 @@ h1 {
         width: 90%;
         margin-bottom: 10px;
     }
+}
+
+#pageButtons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.pageButton {
+    background-color: #7951A8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 18px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.pageButton:hover:not(:disabled) {
+    background-color: #9066BE;
+}
+
+.pageButton:disabled {
+    background-color: #69369E;
+    outline: 2px solid white;
+    cursor: default;
 }
