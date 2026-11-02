@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Milestone 3: Open Library SPA</title>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <nav class="navigation">
+
+        <a href="../projects.html">
+            PROJECTS
+        </a>
+
+        <a href="#searchSection">
+            HOME
+        </a>
+
+        <a href="#collectionSection">
+            COLLECTION
+        </a>
+
+    </nav>
+
+    <div class="container">
+
+        <h1>Milestone 3: Open Library SPA</h1>
+
+        <section id="searchSection">
+
+            <h2>Book Search</h2>
+
+            <div class="search">
+
+                <input type="text" id="searchTerm" placeholder="Enter a book title or keyword">
+
+                <button id="searchButton">Search</button>
+
+            </div>
+
+            <div id="message"></div>
+
+        </section>
+
+        <section id="resultsSection">
+
+            <h2>Search Results</h2>
+
+            <div id="bookResults"></div>
+
+            <div class="pagination" id="pagination" style="display: none;">
+
+                <label for="pageSelect">Select Page:</label>
+
+                <select id="pageSelect"></select>
+
+                <p id="pageIndicator"></p>
+
+            </div>
+
+        </section>
+
+        <section id="detailsSection">
+
+            <h2>Selected Book Details</h2>
+
+            <div class="book" id="bookInfo">
+
+                <p>Select a book to view its details.</p>
+
+            </div>
+
+        </section>
+
+        <section id="collectionSection">
+
+            <h2>Fantasy Book Collection</h2>
+
+            <div id="collectionMessage"></div>
+
+            <div id="collectionResults"></div>
+
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
