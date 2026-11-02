@@ -264,86 +264,183 @@
 
                 });
 
-                function showBookDetails(workID, authors) {
+                
+            function showBookDetails(workID, authors) {
 
-                $("#bookInfo").html("<p>Loading book details...</p>");
+            $("#bookInfo").html("<p>Loading book details...</p>");
 
-                var bookURL = "https://openlibrary.org/works/" +
-                    encodeURIComponent(workID) + ".json";
+            var bookURL = "https://openlibrary.org/works/" +
+                encodeURIComponent(workID) + ".json";
 
-                $.getJSON(bookURL, function(json) {
+            $.getJSON(bookURL, function(json) {
 
-                    var bookHTML = "";
+                var bookHTML = "";
 
-                    bookHTML += "<h2>" +
-                        $("<div>").text(json.title || "Unavailable").html() +
-                        "</h2>";
+                bookHTML += "<h2>" +
+                    $("<div>").text(json.title || "Unavailable").html() +
+                    "</h2>";
 
-                    if (json.covers && json.covers.length > 0 && json.covers[0] > 0) {
+                if (json.covers && json.covers.length > 0 && json.covers[0] > 0) {
 
-                        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
-                            json.covers[0] + "-M.jpg' alt='Book Cover'>";
-
-                    }
-                    else {
-
-                        bookHTML += "<p>Cover Image Unavailable</p>";
-
-                    }
-
-                    bookHTML += "<p><b>Work ID:</b> " +
-                        $("<div>").text(workID).html() + "</p>";
-
-                    bookHTML += "<p><b>Authors:</b> " +
-                        $("<div>").text(authors || "Unavailable").html() + "</p>";
-
-                    var description = "Unavailable";
-
-                    if (json.description) {
-
-                        if (typeof json.description == "string") {
-                            description = json.description;
-                        }
-                        else if (json.description.value) {
-                            description = json.description.value;
-                        }
-
-                    }
-
-                    bookHTML += "<p><b>Description:</b> " +
-                        $("<div>").text(description).html() + "</p>";
-
-                    if (json.subjects && json.subjects.length > 0) {
-
-                        bookHTML += "<p><b>Subjects:</b> " +
-                            $("<div>").text(json.subjects.slice(0, 10).join(", ")).html() +
-                            "</p>";
-
-                    }
-                    else {
-
-                        bookHTML += "<p><b>Subjects:</b> Unavailable</p>";
-
-                    }
-
-                    bookHTML += "<p><a href='https://openlibrary.org/works/" +
-                        encodeURIComponent(workID) +
-                        "' target='_blank' rel='noopener noreferrer'>View Book on Open Library</a></p>";
-
-                    $("#bookInfo").html(bookHTML);
-
-                    document.getElementById("detailsSection").scrollIntoView({
-                        behavior: "smooth"
-                    });
-
-                }).fail(function() {
-
-                    $("#bookInfo").html("<p>Book Information Unavailable. Please try again.</p>");
-
-                });
+                    bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                        json.covers[0] + "-M.jpg' alt='Book Cover'>";
 
                 }
-        });
+                else {
+
+                    bookHTML += "<p>Cover Image Unavailable</p>";
+
+                }
+
+                bookHTML += "<p><b>Work ID:</b> " +
+                    $("<div>").text(workID).html() + "</p>";
+
+                bookHTML += "<p><b>Authors:</b> " +
+                    $("<div>").text(authors || "Unavailable").html() + "</p>";
+
+                var description = "Unavailable";
+
+                if (json.description) {
+
+                    if (typeof json.description == "string") {
+                        description = json.description;
+                    }
+                    else if (json.description.value) {
+                        description = json.description.value;
+                    }
+
+                }
+
+                bookHTML += "<p><b>Description:</b> " +
+                    $("<div>").text(description).html() + "</p>";
+
+                if (json.subjects && json.subjects.length > 0) {
+
+                    bookHTML += "<p><b>Subjects:</b> " +
+                        $("<div>").text(json.subjects.slice(0, 10).join(", ")).html() +
+                        "</p>";
+
+                }
+                else {
+
+                    bookHTML += "<p><b>Subjects:</b> Unavailable</p>";
+
+                }
+
+                bookHTML += "<p><a href='https://openlibrary.org/works/" +
+                    encodeURIComponent(workID) +
+                    "' target='_blank' rel='noopener noreferrer'>View Book on Open Library</a></p>";
+
+                $("#bookInfo").html(bookHTML);
+
+                document.getElementById("detailsSection").scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }).fail(function() {
+
+                $("#bookInfo").html("<p>Book Information Unavailable. Please try again.</p>");
+
+            });
+
+            }
+
+            function loadCollection() {
+
+            $("#collectionMessage").html("<p>Loading Fantasy collection...</p>");
+
+            $.getJSON("https://openlibrary.org/subjects/fantasy.json?limit=10", function(json) {
+
+                var books = json.works || [];
+                var collectionHTML = "";
+
+                if (books.length == 0) {
+
+                    $("#collectionMessage").html("<p>No books available in this collection.</p>");
+                    return;
+
+                }
+
+                for (var i = 0; i < books.length; i++) {
+
+                    var book = books[i];
+                    var workID = (book.key || "").replace("/works/", "");
+                    var authors = [];
+
+                    for (var j = 0; j < (book.authors || []).length; j++) {
+
+                        if (book.authors[j].name) {
+                            authors.push(book.authors[j].name);
+                        }
+
+                    }
+
+                    var authorNames = authors.join(", ") || "Unavailable";
+
+                    collectionHTML += "<div class='book'>";
+
+                    if (/^OL[0-9]+W$/.test(workID)) {
+
+                        collectionHTML += "<h2><a href='#detailsSection' class='collectionBook' data-id='" +
+                            encodeURIComponent(workID) + "' data-authors='" +
+                            encodeURIComponent(authorNames) + "'>" +
+                            $("<div>").text(book.title || "Unavailable").html() +
+                            "</a></h2>";
+
+                    }
+                    else {
+
+                        collectionHTML += "<h2>" +
+                            $("<div>").text(book.title || "Unavailable").html() +
+                            "</h2>";
+
+                    }
+
+                    collectionHTML += "<p><b>Author:</b> " +
+                        $("<div>").text(authorNames).html() + "</p>";
+
+                    if (book.cover_id) {
+
+                        collectionHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                            book.cover_id + "-S.jpg' alt='Book Cover'>";
+
+                    }
+                    else {
+
+                        collectionHTML += "<p>Cover Image Unavailable</p>";
+
+                    }
+
+                    collectionHTML += "</div>";
+
+                }
+
+                $("#collectionResults").html(collectionHTML);
+                $("#collectionMessage").html("");
+
+            }).fail(function() {
+
+                $("#collectionMessage").html("<p>Fantasy Collection Unavailable. Please try again later.</p>");
+
+            });
+
+            }
+
+            $("#collectionResults").on("click", ".collectionBook", function(event) {
+
+            event.preventDefault();
+
+            var workID = decodeURIComponent($(this).attr("data-id"));
+            var authors = decodeURIComponent($(this).attr("data-authors"));
+
+            showBookDetails(workID, authors);
+
+            });
+
+            loadCollection();
+
+            });
+
     </script>
 
 </body>
