@@ -112,10 +112,8 @@
                     return;
 
                 }
-
                 currentSearch = searchTerm;
                 currentPage = 1;
-
                 searchBooks();
 
             });
@@ -175,19 +173,13 @@
                 var startIndex = (currentPage - 1) * resultsPerPage;
                 var endIndex = startIndex + resultsPerPage;
                 var pageResults = searchResults.slice(startIndex, endIndex);
-
                 var bookHTML = "";
 
                 for (var i = 0; i < pageResults.length; i++) {
-
                     var book = pageResults[i];
-
                     bookHTML += "<div class='book'>";
-
                     if (book.key) {
-
                         var workID = book.key.replace("/works/", "");
-
                         bookHTML += "<h2><a href='#detailsSection' class='bookLink' data-id='" +
                             encodeURIComponent(workID) + "'>" +
                             $("<div>").text(book.title || "Unavailable").html() +
@@ -195,7 +187,6 @@
 
                     }
                     else {
-
                         bookHTML += "<h2>" +
                             $("<div>").text(book.title || "Unavailable").html() +
                             "</h2>";
@@ -203,13 +194,11 @@
                     }
 
                     if (book.cover_i) {
-
                         bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
                             book.cover_i + "-S.jpg' alt='Book Cover'>";
 
                     }
                     else {
-
                         bookHTML += "<p>Cover Image Unavailable</p>";
 
                     }
@@ -250,9 +239,7 @@
             $("#bookResults").on("click", ".bookLink", function(event) {
 
                 event.preventDefault();
-
                 var workID = decodeURIComponent($(this).attr("data-id"));
-
                 var selectedBook = searchResults.find(function(book) {
                     return book.key == "/works/" + workID;
                 });
@@ -281,17 +268,14 @@
                     "</h2>";
 
                 if (json.covers && json.covers.length > 0 && json.covers[0] > 0) {
-
                     bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
                         json.covers[0] + "-M.jpg' alt='Book Cover'>";
 
                 }
                 else {
-
                     bookHTML += "<p>Cover Image Unavailable</p>";
 
                 }
-
                 bookHTML += "<p><b>Work ID:</b> " +
                     $("<div>").text(workID).html() + "</p>";
 
@@ -315,14 +299,12 @@
                     $("<div>").text(description).html() + "</p>";
 
                 if (json.subjects && json.subjects.length > 0) {
-
                     bookHTML += "<p><b>Subjects:</b> " +
                         $("<div>").text(json.subjects.slice(0, 10).join(", ")).html() +
                         "</p>";
 
                 }
                 else {
-
                     bookHTML += "<p><b>Subjects:</b> Unavailable</p>";
 
                 }
