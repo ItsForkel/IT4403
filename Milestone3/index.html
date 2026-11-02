@@ -57,9 +57,7 @@
 
             <div class="pagination" id="pagination" style="display: none;">
 
-                <label for="pageSelect">Select Page:</label>
-
-                <select id="pageSelect"></select>
+                <div id="pageButtons"></div>
 
                 <p id="pageIndicator"></p>
 
@@ -91,7 +89,6 @@
 
     </div>
 
-   
     <script>
         $(function() {
 
@@ -125,9 +122,9 @@
 
             });
 
-            $("#pageSelect").change(function() {
+            $("#pageButtons").on("click", ".pageButton", function() {
 
-                currentPage = parseInt($(this).val());
+                currentPage = parseInt($(this).attr("data-page"), 10);
 
                 displayResults();
 
@@ -214,12 +211,17 @@
 
                 for (var i = 1; i <= totalPages; i++) {
 
-                    pageHTML += "<option value='" + i + "'>Page " + i + "</option>";
+                    pageHTML += "<button type='button' class='pageButton' data-page='" + i + "'";
+
+                    if (i === currentPage) {
+                        pageHTML += " disabled aria-current='page'";
+                    }
+
+                    pageHTML += ">Page " + i + "</button>";
 
                 }
 
-                $("#pageSelect").html(pageHTML);
-                $("#pageSelect").val(currentPage);
+                $("#pageButtons").html(pageHTML);
 
                 if (totalPages > 1) {
                     $("#pagination").show();
