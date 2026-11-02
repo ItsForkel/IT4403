@@ -167,18 +167,3 @@ h1 {
         margin-bottom: 10px;
     }
 }
-
-#collectionSection {
-    display: block;
-}
-
-#collectionMessage {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-}
-
-#collectionResults {
-    display: block;
-    width: 100%;
-}
