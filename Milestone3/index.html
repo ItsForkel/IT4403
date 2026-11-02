@@ -249,100 +249,100 @@
 
             $("#bookResults").on("click", ".bookLink", function(event) {
 
-event.preventDefault();
+                event.preventDefault();
 
-var workID = decodeURIComponent($(this).attr("data-id"));
+                var workID = decodeURIComponent($(this).attr("data-id"));
 
-var selectedBook = searchResults.find(function(book) {
-    return book.key == "/works/" + workID;
-});
+                var selectedBook = searchResults.find(function(book) {
+                    return book.key == "/works/" + workID;
+                });
 
-var authors = selectedBook ?
-    (selectedBook.author_name || []).join(", ") : "";
+                var authors = selectedBook ?
+                    (selectedBook.author_name || []).join(", ") : "";
 
-showBookDetails(workID, authors);
+                showBookDetails(workID, authors);
 
-});
+                });
 
-function showBookDetails(workID, authors) {
+                function showBookDetails(workID, authors) {
 
-$("#bookInfo").html("<p>Loading book details...</p>");
+                $("#bookInfo").html("<p>Loading book details...</p>");
 
-var bookURL = "https://openlibrary.org/works/" +
-    encodeURIComponent(workID) + ".json";
+                var bookURL = "https://openlibrary.org/works/" +
+                    encodeURIComponent(workID) + ".json";
 
-$.getJSON(bookURL, function(json) {
+                $.getJSON(bookURL, function(json) {
 
-    var bookHTML = "";
+                    var bookHTML = "";
 
-    bookHTML += "<h2>" +
-        $("<div>").text(json.title || "Unavailable").html() +
-        "</h2>";
+                    bookHTML += "<h2>" +
+                        $("<div>").text(json.title || "Unavailable").html() +
+                        "</h2>";
 
-    if (json.covers && json.covers.length > 0 && json.covers[0] > 0) {
+                    if (json.covers && json.covers.length > 0 && json.covers[0] > 0) {
 
-        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
-            json.covers[0] + "-M.jpg' alt='Book Cover'>";
+                        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                            json.covers[0] + "-M.jpg' alt='Book Cover'>";
 
-    }
-    else {
+                    }
+                    else {
 
-        bookHTML += "<p>Cover Image Unavailable</p>";
+                        bookHTML += "<p>Cover Image Unavailable</p>";
 
-    }
+                    }
 
-    bookHTML += "<p><b>Work ID:</b> " +
-        $("<div>").text(workID).html() + "</p>";
+                    bookHTML += "<p><b>Work ID:</b> " +
+                        $("<div>").text(workID).html() + "</p>";
 
-    bookHTML += "<p><b>Authors:</b> " +
-        $("<div>").text(authors || "Unavailable").html() + "</p>";
+                    bookHTML += "<p><b>Authors:</b> " +
+                        $("<div>").text(authors || "Unavailable").html() + "</p>";
 
-    var description = "Unavailable";
+                    var description = "Unavailable";
 
-    if (json.description) {
+                    if (json.description) {
 
-        if (typeof json.description == "string") {
-            description = json.description;
-        }
-        else if (json.description.value) {
-            description = json.description.value;
-        }
+                        if (typeof json.description == "string") {
+                            description = json.description;
+                        }
+                        else if (json.description.value) {
+                            description = json.description.value;
+                        }
 
-    }
+                    }
 
-    bookHTML += "<p><b>Description:</b> " +
-        $("<div>").text(description).html() + "</p>";
+                    bookHTML += "<p><b>Description:</b> " +
+                        $("<div>").text(description).html() + "</p>";
 
-    if (json.subjects && json.subjects.length > 0) {
+                    if (json.subjects && json.subjects.length > 0) {
 
-        bookHTML += "<p><b>Subjects:</b> " +
-            $("<div>").text(json.subjects.slice(0, 10).join(", ")).html() +
-            "</p>";
+                        bookHTML += "<p><b>Subjects:</b> " +
+                            $("<div>").text(json.subjects.slice(0, 10).join(", ")).html() +
+                            "</p>";
 
-    }
-    else {
+                    }
+                    else {
 
-        bookHTML += "<p><b>Subjects:</b> Unavailable</p>";
+                        bookHTML += "<p><b>Subjects:</b> Unavailable</p>";
 
-    }
+                    }
 
-    bookHTML += "<p><a href='https://openlibrary.org/works/" +
-        encodeURIComponent(workID) +
-        "' target='_blank' rel='noopener noreferrer'>View Book on Open Library</a></p>";
+                    bookHTML += "<p><a href='https://openlibrary.org/works/" +
+                        encodeURIComponent(workID) +
+                        "' target='_blank' rel='noopener noreferrer'>View Book on Open Library</a></p>";
 
-    $("#bookInfo").html(bookHTML);
+                    $("#bookInfo").html(bookHTML);
 
-    document.getElementById("detailsSection").scrollIntoView({
-        behavior: "smooth"
-    });
+                    document.getElementById("detailsSection").scrollIntoView({
+                        behavior: "smooth"
+                    });
 
-}).fail(function() {
+                }).fail(function() {
 
-    $("#bookInfo").html("<p>Book Information Unavailable. Please try again.</p>");
+                    $("#bookInfo").html("<p>Book Information Unavailable. Please try again.</p>");
 
-});
+                });
 
-}
+                }
 
         });
     </script>
