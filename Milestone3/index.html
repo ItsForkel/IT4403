@@ -91,7 +91,164 @@
 
     </div>
 
-    <script src="script.js"></script>
+   
+    <script>
+        $(function() {
+
+            var currentSearch = "";
+            var currentPage = 1;
+            var resultsPerPage = 10;
+            var maxResults = 50;
+            var searchResults = [];
+
+            $("#searchButton").click(function() {
+
+                var searchTerm = $("#searchTerm").val().trim();
+
+                if (searchTerm == "") {
+                    $("#message").html("<p>Please enter a search term.</p>");
+                    $("#bookResults").html("");
+                    $("#pagination").hide();
+                    return;
+
+                }
+
+                currentSearch = searchTerm;
+                currentPage = 1;
+
+                searchBooks();
+
+            });
+
+            $("#searchTerm").keypress(function(event) {
+                if (event.which == 13) {
+                    $("#searchButton").click();
+                }
+
+            });
+
+            $("#pageSelect").change(function() {
+
+                currentPage = parseInt($(this).val());
+
+                displayResults();
+
+            });
+
+            function searchBooks() {
+                $("#message").html("<p>Searching for books...</p>");
+                $("#bookResults").html("");
+                $("#pagination").hide();
+                $("#searchButton").prop("disabled", true);
+
+                var searchURL = "https://openlibrary.org/search.json?q=" +
+                    encodeURIComponent(currentSearch) +
+                    "&limit=" + maxResults;
+                $.getJSON(searchURL, function(json) {
+
+                    searchResults = json.docs || [];
+                    if (searchResults.length == 0) {
+
+                        $("#message").html("<p>No books found for your search.</p>");
+                        return;
+
+                    }
+
+                    displayResults();
+
+                }).fail(function() {
+
+                    $("#message").html("<p>Book Information Unavailable. Please try again.</p>");
+                    $("#bookResults").html("");
+                    $("#pagination").hide();
+
+                }).always(function() {
+
+                    $("#searchButton").prop("disabled", false);
+
+                });
+
+            }
+
+            function displayResults() {
+
+                var startIndex = (currentPage - 1) * resultsPerPage;
+                var endIndex = startIndex + resultsPerPage;
+                var pageResults = searchResults.slice(startIndex, endIndex);
+
+                var bookHTML = "";
+
+                for (var i = 0; i < pageResults.length; i++) {
+
+                    var book = pageResults[i];
+
+                    bookHTML += "<div class='book'>";
+
+                    if (book.key) {
+
+                        var workID = book.key.replace("/works/", "");
+
+                        bookHTML += "<h2><a href='#detailsSection' class='bookLink' data-id='" +
+                            encodeURIComponent(workID) + "'>" +
+                            $("<div>").text(book.title || "Unavailable").html() +
+                            "</a></h2>";
+
+                    }
+                    else {
+
+                        bookHTML += "<h2>" +
+                            $("<div>").text(book.title || "Unavailable").html() +
+                            "</h2>";
+
+                    }
+
+                    if (book.cover_i) {
+
+                        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                            book.cover_i + "-S.jpg' alt='Book Cover'>";
+
+                    }
+                    else {
+
+                        bookHTML += "<p>Cover Image Unavailable</p>";
+
+                    }
+
+                    bookHTML += "</div>";
+
+                }
+
+                $("#bookResults").html(bookHTML);
+
+                var totalPages = Math.ceil(searchResults.length / resultsPerPage);
+                var pageHTML = "";
+
+                for (var i = 1; i <= totalPages; i++) {
+
+                    pageHTML += "<option value='" + i + "'>Page " + i + "</option>";
+
+                }
+
+                $("#pageSelect").html(pageHTML);
+                $("#pageSelect").val(currentPage);
+
+                if (totalPages > 1) {
+                    $("#pagination").show();
+                }
+                else {
+                    $("#pagination").hide();
+                }
+
+                $("#pageIndicator").text("Page " + currentPage + " of " + totalPages);
+
+                $("#message").html("<p>Showing page " + currentPage +
+                    " of " + totalPages + " for: " +
+                    $("<div>").text(currentSearch).html() + "</p>");
+
+            }
+
+        });
+    </script>
 
 </body>
 </html>
