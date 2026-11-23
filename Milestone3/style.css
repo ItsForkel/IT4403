@@ -214,3 +214,23 @@ h1 {
 .viewToggle {
     margin: 15px 0;
 }
+.viewToggle {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.viewToggle button {
+    background-color: #7951A8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.viewToggle button:hover {
+    background-color: #9066BE;
+}
