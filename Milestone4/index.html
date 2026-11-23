@@ -54,11 +54,12 @@
 
             <h2>Search Results</h2>
             
-            <div id="bookResults" class="gridView"></div>
             <div class="viewToggle">
-    <button type="button" id="gridView">Grid View</button>
-    <button type="button" id="listView">List View</button>
-</div>
+                <button type="button" id="gridView">Grid View</button>
+                <button type="button" id="listView">List View</button>
+            </div>
+            
+            <div id="bookResults" class="gridView"></div>
             <script id="bookTemplate" type="x-tmpl-mustache">
          {{#books}}
              <div class="book">
@@ -182,14 +183,20 @@
 
             var currentView = "grid";
 
+            $("#gridView").addClass("active");
+
             $("#gridView").click(function() {
                 currentView = "grid";
                 $("#bookResults").removeClass("listView").addClass("gridView");
+                $("#gridView").addClass("active");
+                $("#listView").removeClass("active");
             });
 
             $("#listView").click(function() {
                 currentView = "list";
                 $("#bookResults").removeClass("gridView").addClass("listView");
+                $("#listView").addClass("active");
+                $("#gridView").removeClass("active");
             });
 
             $("#searchButton").click(function() {
