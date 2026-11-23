@@ -212,9 +212,6 @@ h1 {
 }
 
 .viewToggle {
-    margin: 15px 0;
-}
-.viewToggle {
     display: flex;
     justify-content: center;
     gap: 10px;
