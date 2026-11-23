@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Milestone 3: Open Library SPA</title>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <nav class="navigation">
+
+        <a href="../projects.html">
+            PROJECTS
+        </a>
+
+        <a href="#searchSection">
+            HOME
+        </a>
+
+        <a href="#collectionSection">
+            COLLECTION
+        </a>
+
+    </nav>
+
+    <div class="container">
+
+        <h1>Milestone 3: Open Library SPA</h1>
+
+        <section id="searchSection">
+
+            <h2>Book Search</h2>
+
+            <div class="search">
+
+                <input type="text" id="searchTerm" placeholder="Enter a book title or keyword">
+
+                <button id="searchButton">Search</button>
+
+            </div>
+
+            <div id="message"></div>
+
+        </section>
+
+        <section id="resultsSection">
+
+            <h2>Search Results</h2>
+
+            <div id="bookResults"></div>
+
+            <div class="pagination" id="pagination" style="display: none;">
+
+                <div id="pageButtons"></div>
+
+                <p id="pageIndicator"></p>
+
+            </div>
+
+        </section>
+
+        <section id="detailsSection">
+
+            <h2>Selected Book Details</h2>
+
+            <div class="book" id="bookInfo">
+
+                <p>Select a book to view its details.</p>
+
+            </div>
+
+        </section>
+
+        <section id="collectionSection">
+
+            <h2>Fantasy Book Collection</h2>
+
+            <div id="collectionMessage"></div>
+
+            <div id="collectionResults"></div>
+
+        </section>
+
+    </div>
+
+    <script>
+        $(function() {
+
+            var currentSearch = "";
+            var currentPage = 1;
+            var resultsPerPage = 10;
+            var maxResults = 50;
+            var searchResults = [];
+
+            $("#searchButton").click(function() {
+
+                var searchTerm = $("#searchTerm").val().trim();
+
+                if (searchTerm == "") {
+                    $("#message").html("<p>Please enter a search term.</p>");
+                    $("#bookResults").html("");
+                    $("#pagination").hide();
+                    return;
+
+                }
+                currentSearch = searchTerm;
+                currentPage = 1;
+                searchBooks();
+
+            });
+
+            $("#searchTerm").keypress(function(event) {
+                if (event.which == 13) {
+                    $("#searchButton").click();
+                }
+
+            });
+
+            $("#pageButtons").on("click", ".pageButton", function() {
+
+                currentPage = parseInt($(this).attr("data-page"), 10);
+
+                displayResults();
+
+            });
+
+            function searchBooks() {
+                $("#message").html("<p>Searching for books...</p>");
+                $("#bookResults").html("");
+                $("#pagination").hide();
+                $("#searchButton").prop("disabled", true);
+
+                var searchURL = "https://openlibrary.org/search.json?q=" +
+                    encodeURIComponent(currentSearch) +
+                    "&limit=" + maxResults;
+                $.getJSON(searchURL, function(json) {
+
+                    searchResults = json.docs || [];
+                    if (searchResults.length == 0) {
+
+                        $("#message").html("<p>No books found for your search.</p>");
+                        return;
+
+                    }
+
+                    displayResults();
+
+                }).fail(function() {
+
+                    $("#message").html("<p>Book Information Unavailable. Please try again.</p>");
+                    $("#bookResults").html("");
+                    $("#pagination").hide();
+
+                }).always(function() {
+
+                    $("#searchButton").prop("disabled", false);
+
+                });
+
+            }
+
+            function displayResults() {
+
+                var startIndex = (currentPage - 1) * resultsPerPage;
+                var endIndex = startIndex + resultsPerPage;
+                var pageResults = searchResults.slice(startIndex, endIndex);
+                var bookHTML = "";
+
+                for (var i = 0; i < pageResults.length; i++) {
+                    var book = pageResults[i];
+                    bookHTML += "<div class='book'>";
+                    if (book.key) {
+                        var workID = book.key.replace("/works/", "");
+                        bookHTML += "<h2><a href='#detailsSection' class='bookLink' data-id='" +
+                            encodeURIComponent(workID) + "'>" +
+                            $("<div>").text(book.title || "Unavailable").html() +
+                            "</a></h2>";
+
+                    }
+                    else {
+                        bookHTML += "<h2>" +
+                            $("<div>").text(book.title || "Unavailable").html() +
+                            "</h2>";
+
+                    }
+
+                    if (book.cover_i) {
+                        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                            book.cover_i + "-S.jpg' alt='Book Cover'>";
+
+                    }
+                    else {
+                        bookHTML += "<p>Cover Image Unavailable</p>";
+
+                    }
+
+                    bookHTML += "</div>";
+
+                }
+
+                $("#bookResults").html(bookHTML);
+
+                var totalPages = Math.ceil(searchResults.length / resultsPerPage);
+                var pageHTML = "";
+
+                for (var i = 1; i <= totalPages; i++) {
+
+                    pageHTML += "<button type='button' class='pageButton' data-page='" + i + "'";
+
+                    if (i === currentPage) {
+                        pageHTML += " disabled aria-current='page'";
+                    }
+
+                    pageHTML += ">Page " + i + "</button>";
+
+                }
+
+                $("#pageButtons").html(pageHTML);
+
+                if (totalPages > 1) {
+                    $("#pagination").show();
+                }
+                else {
+                    $("#pagination").hide();
+                }
+
+                $("#pageIndicator").text("Page " + currentPage + " of " + totalPages);
+
+                $("#message").html("<p>Showing page " + currentPage +
+                    " of " + totalPages + " for: " +
+                    $("<div>").text(currentSearch).html() + "</p>");
+
+            }
+
+            $("#bookResults").on("click", ".bookLink", function(event) {
+
+                event.preventDefault();
+                var workID = decodeURIComponent($(this).attr("data-id"));
+                var selectedBook = searchResults.find(function(book) {
+                    return book.key == "/works/" + workID;
+                });
+
+                var authors = selectedBook ?
+                    (selectedBook.author_name || []).join(", ") : "";
+
+                showBookDetails(workID, authors);
+
+                });
+
+                
+            function showBookDetails(workID, authors) {
+
+            $("#bookInfo").html("<p>Loading book details...</p>");
+
+            var bookURL = "https://openlibrary.org/works/" +
+                encodeURIComponent(workID) + ".json";
+
+            $.getJSON(bookURL, function(json) {
+
+                var bookHTML = "";
+
+                bookHTML += "<h2>" +
+                    $("<div>").text(json.title || "Unavailable").html() +
+                    "</h2>";
+
+                if (json.covers && json.covers.length > 0 && json.covers[0] > 0) {
+                    bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                        json.covers[0] + "-M.jpg' alt='Book Cover'>";
+
+                }
+                else {
+                    bookHTML += "<p>Cover Image Unavailable</p>";
+
+                }
+                bookHTML += "<p><b>Work ID:</b> " +
+                    $("<div>").text(workID).html() + "</p>";
+
+                bookHTML += "<p><b>Authors:</b> " +
+                    $("<div>").text(authors || "Unavailable").html() + "</p>";
+
+                var description = "Unavailable";
+
+                if (json.description) {
+
+                    if (typeof json.description == "string") {
+                        description = json.description;
+                    }
+                    else if (json.description.value) {
+                        description = json.description.value;
+                    }
+
+                }
+
+                bookHTML += "<p><b>Description:</b> " +
+                    $("<div>").text(description).html() + "</p>";
+
+                if (json.subjects && json.subjects.length > 0) {
+                    bookHTML += "<p><b>Subjects:</b> " +
+                        $("<div>").text(json.subjects.slice(0, 10).join(", ")).html() +
+                        "</p>";
+
+                }
+                else {
+                    bookHTML += "<p><b>Subjects:</b> Unavailable</p>";
+
+                }
+
+                bookHTML += "<p><a href='https://openlibrary.org/works/" +
+                    encodeURIComponent(workID) +
+                    "' target='_blank' rel='noopener noreferrer'>View Book on Open Library</a></p>";
+
+                $("#bookInfo").html(bookHTML);
+
+                document.getElementById("detailsSection").scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }).fail(function() {
+
+                $("#bookInfo").html("<p>Book Information Unavailable. Please try again.</p>");
+
+            });
+
+            }
+
+            function loadCollection() {
+
+            $("#collectionMessage").html("<p>Loading Fantasy collection...</p>");
+
+            $.getJSON("https://openlibrary.org/subjects/fantasy.json?limit=10", function(json) {
+
+                var books = json.works || [];
+                var collectionHTML = "";
+
+                if (books.length == 0) {
+
+                    $("#collectionMessage").html("<p>No books available in this collection.</p>");
+                    return;
+
+                }
+
+                for (var i = 0; i < books.length; i++) {
+
+                    var book = books[i];
+                    var workID = (book.key || "").replace("/works/", "");
+                    var authors = [];
+
+                    for (var j = 0; j < (book.authors || []).length; j++) {
+
+                        if (book.authors[j].name) {
+                            authors.push(book.authors[j].name);
+                        }
+
+                    }
+
+                    var authorNames = authors.join(", ") || "Unavailable";
+
+                    collectionHTML += "<div class='book'>";
+
+                    if (/^OL[0-9]+W$/.test(workID)) {
+
+                        collectionHTML += "<h2><a href='#detailsSection' class='collectionBook' data-id='" +
+                            encodeURIComponent(workID) + "' data-authors='" +
+                            encodeURIComponent(authorNames) + "'>" +
+                            $("<div>").text(book.title || "Unavailable").html() +
+                            "</a></h2>";
+
+                    }
+                    else {
+
+                        collectionHTML += "<h2>" +
+                            $("<div>").text(book.title || "Unavailable").html() +
+                            "</h2>";
+
+                    }
+
+                    collectionHTML += "<p><b>Author:</b> " +
+                        $("<div>").text(authorNames).html() + "</p>";
+
+                    if (book.cover_id) {
+
+                        collectionHTML += "<img src='https://covers.openlibrary.org/b/id/" +
+                            book.cover_id + "-S.jpg' alt='Book Cover'>";
+
+                    }
+                    else {
+
+                        collectionHTML += "<p>Cover Image Unavailable</p>";
+
+                    }
+
+                    collectionHTML += "</div>";
+
+                }
+
+                $("#collectionResults").html(collectionHTML);
+                $("#collectionMessage").html("");
+
+            }).fail(function() {
+
+                $("#collectionMessage").html("<p>Fantasy Collection Unavailable. Please try again later.</p>");
+
+            });
+
+            }
+
+            $("#collectionResults").on("click", ".collectionBook", function(event) {
+
+            event.preventDefault();
+
+            var workID = decodeURIComponent($(this).attr("data-id"));
+            var authors = decodeURIComponent($(this).attr("data-authors"));
+
+            showBookDetails(workID, authors);
+
+            });
+
+            loadCollection();
+
+            });
+
+    </script>
+
+</body>
+</html>
