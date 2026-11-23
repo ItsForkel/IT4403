@@ -195,39 +195,3 @@ h1 {
     outline: 2px solid white;
     cursor: default;
 }
-#bookResults.gridView {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-}
-
-#bookResults.listView {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-#bookResults.listView .book {
-    width: 100%;
-}
-
-.viewToggle {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px 0;
-}
-
-.viewToggle button {
-    background-color: #7951A8;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 12px 25px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.viewToggle button:hover {
-    background-color: #9066BE;
-}
