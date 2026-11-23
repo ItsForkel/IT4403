@@ -231,3 +231,8 @@ h1 {
 .viewToggle button:hover {
     background-color: #9066BE;
 }
+
+.viewToggle button.active {
+    background-color: #69369E;
+    outline: 2px solid white;
+}
