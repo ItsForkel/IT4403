@@ -54,11 +54,6 @@
 
             <h2>Search Results</h2>
             
-            <div class="viewToggle">
-                <button type="button" id="gridView">Grid View</button>
-                <button type="button" id="listView">List View</button>
-            </div>
-            
             <div id="bookResults"></div>
             <div class="viewToggle">
     <button type="button" id="gridView">Grid View</button>
@@ -184,6 +179,18 @@
             var resultsPerPage = 10;
             var maxResults = 50;
             var searchResults = [];
+
+            var currentView = "grid";
+
+            $("#gridView").click(function() {
+                currentView = "grid";
+                $("#bookResults").removeClass("listView").addClass("gridView");
+            });
+
+            $("#listView").click(function() {
+                currentView = "list";
+                $("#bookResults").removeClass("gridView").addClass("listView");
+            });
 
             $("#searchButton").click(function() {
 
