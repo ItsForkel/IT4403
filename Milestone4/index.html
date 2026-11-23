@@ -136,7 +136,34 @@
             <div id="collectionMessage"></div>
 
             <div id="collectionResults"></div>
-
+            <script id="collectionTemplate" type="x-tmpl-mustache">
+                {{#books}}
+                <div class="book">
+                    <h2>
+                        {{#workID}}
+                        <a href="#detailsSection" class="collectionBook"
+                           data-id="{{workID}}" data-authors="{{encodedAuthors}}">
+                            {{title}}
+                        </a>
+                        {{/workID}}
+            
+                        {{^workID}}
+                            {{title}}
+                        {{/workID}}
+                    </h2>
+            
+                    <p><b>Author:</b> {{authors}}</p>
+            
+                    {{#coverURL}}
+                        <img src="{{coverURL}}" alt="Cover of {{title}}">
+                    {{/coverURL}}
+            
+                    {{^coverURL}}
+                        <p>Cover Image Unavailable</p>
+                    {{/coverURL}}
+                </div>
+                {{/books}}
+            </script>
         </section>
 
     </div>
@@ -350,68 +377,39 @@
             $.getJSON("https://openlibrary.org/subjects/fantasy.json?limit=10", function(json) {
 
                 var books = json.works || [];
-                var collectionHTML = "";
-
-                if (books.length == 0) {
-
+                                if (books.length == 0) {
                     $("#collectionMessage").html("<p>No books available in this collection.</p>");
                     return;
-
                 }
 
-                for (var i = 0; i < books.length; i++) {
+                var collectionBooks = [];
 
+                for (var i = 0; i < books.length; i++) {
                     var book = books[i];
                     var workID = (book.key || "").replace("/works/", "");
                     var authors = [];
 
                     for (var j = 0; j < (book.authors || []).length; j++) {
-
                         if (book.authors[j].name) {
                             authors.push(book.authors[j].name);
                         }
-
                     }
 
                     var authorNames = authors.join(", ") || "Unavailable";
 
-                    collectionHTML += "<div class='book'>";
-
-                    if (/^OL[0-9]+W$/.test(workID)) {
-
-                        collectionHTML += "<h2><a href='#detailsSection' class='collectionBook' data-id='" +
-                            encodeURIComponent(workID) + "' data-authors='" +
-                            encodeURIComponent(authorNames) + "'>" +
-                            $("<div>").text(book.title || "Unavailable").html() +
-                            "</a></h2>";
-
-                    }
-                    else {
-
-                        collectionHTML += "<h2>" +
-                            $("<div>").text(book.title || "Unavailable").html() +
-                            "</h2>";
-
-                    }
-
-                    collectionHTML += "<p><b>Author:</b> " +
-                        $("<div>").text(authorNames).html() + "</p>";
-
-                    if (book.cover_id) {
-
-                        collectionHTML += "<img src='https://covers.openlibrary.org/b/id/" +
-                            book.cover_id + "-S.jpg' alt='Book Cover'>";
-
-                    }
-                    else {
-
-                        collectionHTML += "<p>Cover Image Unavailable</p>";
-
-                    }
-
-                    collectionHTML += "</div>";
-
+                    collectionBooks.push({
+                        title: book.title || "Unavailable",
+                        workID: /^OL[0-9]+W$/.test(workID) ? workID : "",
+                        authors: authorNames,
+                        encodedAuthors: encodeURIComponent(authorNames),
+                        coverURL: book.cover_id
+                            ? "https://covers.openlibrary.org/b/id/" + book.cover_id + "-S.jpg"
+                            : ""
+                    });
                 }
+
+                var template = $("#collectionTemplate").html();
+                var collectionHTML = Mustache.render(template, { books: collectionBooks });
 
                 $("#collectionResults").html(collectionHTML);
                 $("#collectionMessage").html("");
