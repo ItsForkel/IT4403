@@ -103,7 +103,30 @@
                 <p>Select a book to view its details.</p>
 
             </div>
-
+            <script id="detailsTemplate" type="x-tmpl-mustache">
+                <div class="book">
+                    <h2>{{title}}</h2>
+            
+                    {{#coverURL}}
+                        <img src="{{coverURL}}" alt="Cover of {{title}}">
+                    {{/coverURL}}
+            
+                    {{^coverURL}}
+                        <p>Cover Image Unavailable</p>
+                    {{/coverURL}}
+            
+                    <p><b>Work ID:</b> {{workID}}</p>
+                    <p><b>Authors:</b> {{authors}}</p>
+                    <p><b>Description:</b> {{description}}</p>
+                    <p><b>Subjects:</b> {{subjects}}</p>
+            
+                    <p>
+                        <a href="{{openLibraryURL}}" target="_blank" rel="noopener noreferrer">
+                            View Book on Open Library
+                        </a>
+                    </p>
+                </div>
+            </script>
         </section>
 
         <section id="collectionSection">
