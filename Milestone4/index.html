@@ -55,6 +55,34 @@
             <h2>Search Results</h2>
 
             <div id="bookResults"></div>
+            
+            <script id="bookTemplate" type="x-tmpl-mustache">
+         {{#books}}
+             <div class="book">
+             <h2>
+                  {{#workID}}
+                 <a href="#detailsSection" class="bookLink" data-id="{{workID}}">
+                            {{title}}
+                      </a>
+                  {{/workID}}
+
+                   {{^workID}}
+                       {{title}}
+                   {{/workID}}
+             </h2>
+
+             <p><b>Author:</b> {{authors}}</p>
+
+              {{#coverURL}}
+                    <img src="{{coverURL}}" alt="Cover of {{title}}">
+             {{/coverURL}}
+
+             {{^coverURL}}
+                  <p>Cover Image Unavailable</p>
+              {{/coverURL}}
+             </div>
+         {{/books}}
+        </script>
 
             <div class="pagination" id="pagination" style="display: none;">
 
@@ -171,41 +199,29 @@
                 var startIndex = (currentPage - 1) * resultsPerPage;
                 var endIndex = startIndex + resultsPerPage;
                 var pageResults = searchResults.slice(startIndex, endIndex);
-                var bookHTML = "";
+                
+
+                var books = [];
 
                 for (var i = 0; i < pageResults.length; i++) {
                     var book = pageResults[i];
-                    bookHTML += "<div class='book'>";
-                    if (book.key) {
-                        var workID = book.key.replace("/works/", "");
-                        bookHTML += "<h2><a href='#detailsSection' class='bookLink' data-id='" +
-                            encodeURIComponent(workID) + "'>" +
-                            $("<div>").text(book.title || "Unavailable").html() +
-                            "</a></h2>";
 
-                    }
-                    else {
-                        bookHTML += "<h2>" +
-                            $("<div>").text(book.title || "Unavailable").html() +
-                            "</h2>";
+                    books.push({
+                        title: book.title || "Unavailable",
+                        workID: /^\/works\/OL[0-9]+W$/.test(book.key || "")
+                            ? book.key.replace("/works/", "")
+                            : "",
+                        authors: (book.author_name || []).join(", ") || "Unavailable",
+                        coverURL: book.cover_i
+                            ? "https://covers.openlibrary.org/b/id/" + book.cover_i + "-S.jpg"
+                            : ""
+                    });
+        }  
 
-                    }
-
-                    if (book.cover_i) {
-                        bookHTML += "<img src='https://covers.openlibrary.org/b/id/" +
-                            book.cover_i + "-S.jpg' alt='Book Cover'>";
-
-                    }
-                    else {
-                        bookHTML += "<p>Cover Image Unavailable</p>";
-
-                    }
-
-                    bookHTML += "</div>";
-
-                }
-
+                var template = $("#bookTemplate").html();
+                var bookHTML = Mustache.render(template, { books: books });
                 $("#bookResults").html(bookHTML);
+
 
                 var totalPages = Math.ceil(searchResults.length / resultsPerPage);
                 var pageHTML = "";
